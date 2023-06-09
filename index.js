@@ -16,11 +16,6 @@ const newsArticles = [
     address: 'https://www.coindesk.com/tag/news/',
     base: 'https://www.coindesk.com/tag/news',
   },
-  //   {
-  //     name: 'decrypt',
-  //     address: 'https://decrypt.co/news/',
-  //     base: 'https://decrypt.co/news',
-  //   },
   {
     name: 'cryptonews',
     address: 'https://cryptonews.com/',
