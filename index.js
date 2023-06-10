@@ -1,25 +1,25 @@
 const PORT = process.env.PORT || 8080;
-const express = require('express');
-const axios = require('axios');
-const cheerio = require('cheerio');
+const express = require("express");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const app = express();
 
 const newsArticles = [
   {
-    name: 'techcrunch',
-    address: 'https://techcrunch.com/category/cryptocurrency/',
-    base: '', // in case the URL is not completed
+    name: "techcrunch",
+    address: "https://techcrunch.com/category/cryptocurrency/",
+    base: "", // in case the URL is not completed
   },
+  // {
+  //   name: 'coindesk',
+  //   address: 'https://www.coindesk.com/tag/news/',
+  //   base: 'https://www.coindesk.com/tag/news',
+  // },
   {
-    name: 'coindesk',
-    address: 'https://www.coindesk.com/tag/news/',
-    base: 'https://www.coindesk.com/tag/news',
-  },
-  {
-    name: 'cryptonews',
-    address: 'https://cryptonews.com/',
-    base: 'https://cryptonews.com',
+    name: "cryptonews",
+    address: "https://cryptonews.com/",
+    base: "https://cryptonews.com",
   },
 ];
 
@@ -35,31 +35,31 @@ newsArticles.forEach((newsArticle) => {
 
     $(keywords, html).each(function (index) {
       const title = $(this).text();
-      const url = $(this).attr('href');
-      let imageUrl = '';
+      const url = $(this).attr("href");
+      let imageUrl = "";
 
       if (
         newsArticle.address ===
-        'https://techcrunch.com/category/cryptocurrency/'
+        "https://techcrunch.com/category/cryptocurrency/"
       ) {
-        const articleElements = $('.post-block');
+        const articleElements = $(".post-block");
         const articleElement = articleElements.eq(index);
-        const img = articleElement.find('footer img');
-        imageUrl = img.attr('src');
+        const img = articleElement.find("footer img");
+        imageUrl = img.attr("src");
       }
 
-      if (newsArticle.address === 'https://www.coindesk.com/tag/news/') {
-        const articleElements = $('.img-block');
-        const articleElement = articleElements.eq(index);
-        const img = articleElement.find('a img');
-        imageUrl = img.attr('src');
-      }
+      // if (newsArticle.address === "https://www.coindesk.com/tag/news/") {
+      //   const articleElements = $(".img-block");
+      //   const articleElement = articleElements.eq(index);
+      //   const img = articleElement.find("a img");
+      //   imageUrl = img.attr("src");
+      // }
 
-      if (newsArticle.address === 'https://cryptonews.com/') {
-        const articleElements = $('.img-sized');
+      if (newsArticle.address === "https://cryptonews.com/") {
+        const articleElements = $(".img-sized");
         const articleElement = articleElements.eq(index);
-        const img = articleElement.find('img');
-        imageUrl = img.attr('src');
+        const img = articleElement.find("img");
+        imageUrl = img.attr("src");
       }
 
       articles.push({
@@ -72,15 +72,15 @@ newsArticles.forEach((newsArticle) => {
   });
 });
 
-app.get('/', (req, res, next) => {
-  res.json('Welcome to my Crypto News API!');
+app.get("/", (req, res, next) => {
+  res.json("Welcome to my Crypto News API!");
 });
 
-app.get('/news', (req, res, next) => {
+app.get("/news", (req, res, next) => {
   res.json(articles);
 });
 
-app.get('/news/:newsArticleId', (req, res, next) => {
+app.get("/news/:newsArticleId", (req, res, next) => {
   const newsArticleId = req.params.newsArticleId;
 
   const newsArticleAddress = newsArticles.filter(
@@ -101,32 +101,32 @@ app.get('/news/:newsArticleId', (req, res, next) => {
 
       $(keywords, html).each(function () {
         const title = $(this).text();
-        const url = $(this).attr('href');
+        const url = $(this).attr("href");
 
-        let imageUrl = '';
+        let imageUrl = "";
 
         if (
           newsArticle.address ===
-          'https://techcrunch.com/category/cryptocurrency/'
+          "https://techcrunch.com/category/cryptocurrency/"
         ) {
-          const articleElements = $('.post-block');
+          const articleElements = $(".post-block");
           const articleElement = articleElements.eq(index);
-          const img = articleElement.find('footer img');
-          imageUrl = img.attr('src');
+          const img = articleElement.find("footer img");
+          imageUrl = img.attr("src");
         }
 
-        if (newsArticle.address === 'https://www.coindesk.com/tag/news/') {
-          const articleElements = $('.img-block');
+        if (newsArticle.address === "https://www.coindesk.com/tag/news/") {
+          const articleElements = $(".img-block");
           const articleElement = articleElements.eq(index);
-          const img = articleElement.find('a img');
-          imageUrl = img.attr('src');
+          const img = articleElement.find("a img");
+          imageUrl = img.attr("src");
         }
 
-        if (newsArticle.address === 'https://cryptonews.com/') {
-          const articleElements = $('.img-sized');
+        if (newsArticle.address === "https://cryptonews.com/") {
+          const articleElements = $(".img-sized");
           const articleElement = articleElements.eq(index);
-          const img = articleElement.find('img');
-          imageUrl = img.attr('src');
+          const img = articleElement.find("img");
+          imageUrl = img.attr("src");
         }
 
         specificArticles.push({
@@ -144,5 +144,5 @@ app.get('/news/:newsArticleId', (req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Server running...');
+  console.log("Server running...");
 });
