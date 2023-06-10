@@ -11,16 +11,6 @@ const newsArticles = [
     address: "https://techcrunch.com/category/cryptocurrency/",
     base: "", // in case the URL is not completed
   },
-  // {
-  //   name: 'coindesk',
-  //   address: 'https://www.coindesk.com/tag/news/',
-  //   base: 'https://www.coindesk.com/tag/news',
-  // },
-  {
-    name: "cryptonews",
-    address: "https://cryptonews.com/",
-    base: "https://cryptonews.com",
-  },
 ];
 
 // prettier-ignore
@@ -45,20 +35,6 @@ newsArticles.forEach((newsArticle) => {
         const articleElements = $(".post-block");
         const articleElement = articleElements.eq(index);
         const img = articleElement.find("footer img");
-        imageUrl = img.attr("src");
-      }
-
-      // if (newsArticle.address === "https://www.coindesk.com/tag/news/") {
-      //   const articleElements = $(".img-block");
-      //   const articleElement = articleElements.eq(index);
-      //   const img = articleElement.find("a img");
-      //   imageUrl = img.attr("src");
-      // }
-
-      if (newsArticle.address === "https://cryptonews.com/") {
-        const articleElements = $(".img-sized");
-        const articleElement = articleElements.eq(index);
-        const img = articleElement.find("img");
         imageUrl = img.attr("src");
       }
 
@@ -112,20 +88,6 @@ app.get("/news/:newsArticleId", (req, res, next) => {
           const articleElements = $(".post-block");
           const articleElement = articleElements.eq(index);
           const img = articleElement.find("footer img");
-          imageUrl = img.attr("src");
-        }
-
-        if (newsArticle.address === "https://www.coindesk.com/tag/news/") {
-          const articleElements = $(".img-block");
-          const articleElement = articleElements.eq(index);
-          const img = articleElement.find("a img");
-          imageUrl = img.attr("src");
-        }
-
-        if (newsArticle.address === "https://cryptonews.com/") {
-          const articleElements = $(".img-sized");
-          const articleElement = articleElements.eq(index);
-          const img = articleElement.find("img");
           imageUrl = img.attr("src");
         }
 
