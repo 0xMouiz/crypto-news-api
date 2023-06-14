@@ -22,11 +22,11 @@ newsArticles.forEach((newsArticle) => {
   axios.get(newsArticle.address).then((response) => {
     const html = response.data;
     const $ = cheerio.load(html);
+    let imageUrl;
 
     $(keywords, html).each(function (index) {
       const title = $(this).text();
       const url = $(this).attr("href");
-      let imageUrl = "";
 
       if (
         newsArticle.address ===
@@ -93,6 +93,7 @@ app.get("/news/:newsArticleId", (req, res, next) => {
 
         specificArticles.push({
           title,
+          imageUrl,
           url: newsArticleBase + url,
           source: newsArticleId,
         });
