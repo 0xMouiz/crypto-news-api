@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "vercel-build": "echo hello"
+    "start": "nodemon index.js"
   },
   "author": "Mouiz",
   "license": "ISC",
