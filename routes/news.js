@@ -46,7 +46,7 @@ newsArticles.forEach((newsArticle) => {
   });
 });
 
-router.get("/news", (req, res, next) => {
+router.get("/api/news", (req, res, next) => {
   res.json(articles);
 });
 
