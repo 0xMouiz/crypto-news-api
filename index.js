@@ -20,6 +20,8 @@ let articles = [];
 
 // Function to fetch articles and populate the articles array
 const fetchArticles = async () => {
+  articles = [];
+
   for await (const newsArticle of newsArticles) {
     await axios
       .get(newsArticle.address)
