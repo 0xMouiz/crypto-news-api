@@ -14,48 +14,59 @@ const newsArticles = [
 ];
 
 // prettier-ignore
-const keywords = 'a:contains("crypto"), a:contains("web3"), a:contains("blockchain"), a:contains("bitcoin"), a:contains("ethereum"), a:contains("binance"), a:contains("coinbase"), a:contains("sec"), a:contains("xrp"), a:contains("ripple"), a:contains("solana"), a:contains("coin")'
+const keywords = 'a:contains("crypto"), a:contains("web3"), a:contains("blockchain"), a:contains("bitcoin"), a:contains("ethereum"), a:contains("binance"), a:contains("coinbase"), a:contains("sec"), a:contains("xrp"), a:contains("ripple"), a:contains("solana"), a:contains("coin")';
 
-const articles = [];
+let articles = [];
 
-newsArticles.forEach((newsArticle) => {
-  axios.get(newsArticle.address).then((response) => {
-    const html = response.data;
-    const $ = cheerio.load(html);
-    let imageUrl;
+// Function to fetch articles and populate the articles array
+const fetchArticles = async () => {
+  for await (const newsArticle of newsArticles) {
+    await axios
+      .get(newsArticle.address)
+      .then((response) => {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        let imageUrl;
 
-    $(keywords, html).each(function (index) {
-      const title = $(this).text();
-      const url = $(this).attr("href");
+        $(keywords, html).each(function (index) {
+          const title = $(this).text();
+          const url = $(this).attr("href");
 
-      if (
-        newsArticle.address ===
-        "https://techcrunch.com/category/cryptocurrency/"
-      ) {
-        const articleElements = $(".post-block");
-        const articleElement = articleElements.eq(index);
-        const img = articleElement.find("footer img");
-        imageUrl = img.attr("src");
-      }
+          if (
+            newsArticle.address ===
+            "https://techcrunch.com/category/cryptocurrency/"
+          ) {
+            const articleElements = $(".post-block");
+            const articleElement = articleElements.eq(index);
+            const img = articleElement.find("footer img");
+            imageUrl = img.attr("src");
+          }
 
-      articles.push({
-        title,
-        imageUrl,
-        url: newsArticle.base + url,
-        source: newsArticle.name,
-      });
-    });
-  });
-});
+          articles.push({
+            title,
+            imageUrl,
+            url: newsArticle.base + url,
+            source: newsArticle.name,
+          });
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+};
+// Call the fetchArticles function to populate the articles array
 
 app.get("/", (req, res, next) => {
-  res.json("Welcome to my Crypto News API!");
+  return res.send("nice");
 });
 
-app.get("/news", (req, res, next) => {
-  res.json(articles);
+app.get("/api/news", async (req, res, next) => {
+  await fetchArticles();
+
+  return res.json(articles);
 });
 
 app.listen(PORT, () => {
   console.log("Server running...");
 });
+
+module.exports = app;
